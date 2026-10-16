@@ -4,6 +4,12 @@
   --secondary-txt: hsl(220, 20%, 30%);
   --secondary-bg: hsl(220, 20%, 80%);
 
+  /* My call-to-action colours: a bright orange that stands out against the dark blue page */
+  --cta-bg: hsl(28, 100%, 58%);
+  --cta-txt: hsl(220, 45%, 12%);
+  --cta-bg-hover: hsl(45, 100%, 60%);
+  --cta-focus-ring: hsl(45, 100%, 75%);
+
   --radius: 0.5rem;
 
   --font-xxxl: 5.61rem;
@@ -89,8 +95,6 @@ header h2 {
   & > button {
     align-self: flex-end;
     font-size: var(--font-sm);
-    color: var(--secondary-bg);
-    background-color: var(--secondary-txt);
   }
 }
 
@@ -110,10 +114,6 @@ header h2 {
   & > p {
     color: var(--secondary-bg);
   }
-  & > button {
-    color: var(--secondary-bg);
-    background-color: var(--secondary-txt);
-  }
 }
 .feature_box:nth-child(odd) > * {
   justify-content: flex-start;
@@ -129,4 +129,25 @@ header h2 {
 }
 .feature_box .icon {
   font-size: 1.2em; /* a little bigger than the heading text */
+}
+
+/* Call to action: every button uses my new CTA colours so the eye goes straight to them */
+.class--action,
+.feature_box--action {
+  background-color: var(--cta-bg);
+  color: var(--cta-txt);
+  font-weight: 700;
+  box-shadow: 0 4px 0 hsl(from var(--cta-bg) h s 35%);
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+.class--action:hover,
+.feature_box--action:hover {
+  background-color: var(--cta-bg-hover);
+  transform: translateY(-2px);
+}
+.class--action:focus-visible,
+.feature_box--action:focus-visible {
+  outline: 3px solid var(--cta-focus-ring);
+  outline-offset: 3px;
 }
