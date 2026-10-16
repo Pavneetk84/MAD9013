@@ -120,3 +120,13 @@ header h2 {
   align-self: flex-end;
   text-align: end;
 }
+
+/* Icons: I put an icon next to each feature heading so people can scan faster */
+.feature_box > h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.feature_box .icon {
+  font-size: 1.2em; /* a little bigger than the heading text */
+}
