@@ -1,0 +1,290 @@
+/*
+
+My CSS Normalize
+Based on: https://piccalil.li/blog/a-more-modern-css-reset/
+Customized with my own design defaults (variables, typography,
+colours, dark mode) plus extra fixes. My additions are marked "ADDED".
+
+*/
+
+/* ADDED: My design variables - change these to restyle every project */
+:root {
+    /* Colours */
+    --color-text: #1f2430;
+    --color-bg: #fcfcfd;
+    --color-primary: #5b4bdb;
+    --color-primary-hover: #3d2fb3;
+    --color-muted: #6b7280;
+    --color-border: #d9dbe3;
+    --color-code-bg: #f1f1f6;
+  
+    /* Fonts */
+    --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    --font-heading: Georgia, 'Times New Roman', serif;
+    --font-mono: ui-monospace, Consolas, 'Courier New', monospace;
+  
+    /* Spacing and shapes */
+    --space: 1.5rem;
+    --radius: 0.375rem;
+  }
+  
+  /* ADDED: Dark mode colours for people whose device is set to dark */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-text: #e8e8f0;
+      --color-bg: #16161d;
+      --color-primary: #a99cff;
+      --color-primary-hover: #cfc7ff;
+      --color-muted: #9ca3af;
+      --color-border: #33343f;
+      --color-code-bg: #22232d;
+    }
+  }
+  
+  /* Box sizing rules */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  /* Prevent font size inflation */
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+    line-height: 1.5;
+  }
+  
+  /* ADDED: Smooth scrolling for in-page links (turned off below for reduced motion) */
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+  
+  /* Remove default margin in favour of better control in authored CSS */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  figure,
+  blockquote,
+  ol,
+  ul,
+  dl,
+  dd,
+  pre {
+    margin: 0 0 var(--space);
+  }
+  
+  /* ADDED: Remove the bottom margin from the last element in a container */
+  :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, ol, ul, dl, dd, pre):last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+  ul[role='list'],
+  ol[role='list'] {
+    list-style: none;
+  }
+  
+  /* Set core body defaults */
+  body {
+    min-height: 100vh;
+    min-height: 100dvh; /* ADDED: better height on mobile browsers */
+    margin: 0;
+    font-family: var(--font-body); /* ADDED */
+    color: var(--color-text); /* ADDED */
+    background-color: var(--color-bg); /* ADDED */
+    -webkit-font-smoothing: antialiased; /* ADDED: smoother text on macOS */
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Set shorter line heights on headings and interactive elements */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  button,
+  input,
+  label {
+    line-height: 1.1;
+  }
+  
+  /* Balance text wrapping on headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+  
+  /* ADDED: My heading style - serif font with a size scale that grows with the screen */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+  }
+  
+  h1 {
+    font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+  }
+  
+  h2 {
+    font-size: clamp(1.6rem, 1.3rem + 1.5vw, 2.25rem);
+  }
+  
+  h3 {
+    font-size: clamp(1.3rem, 1.15rem + 0.75vw, 1.6rem);
+  }
+  
+  h4,
+  h5,
+  h6 {
+    font-size: 1.1rem;
+  }
+  
+  /* ADDED: Avoid single words on the last line of paragraphs, and stop long words/URLs overflowing */
+  p,
+  li {
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+  
+  /* A elements that don't have a class get default styles (UPDATED: my own colours) */
+  a:not([class]) {
+    text-decoration-skip-ink: auto;
+    text-underline-offset: 0.2em; /* ADDED: underline sits lower, easier to read */
+    color: var(--color-primary);
+  }
+  
+  a:not([class]):hover,
+  a:not([class]):focus-visible {
+    color: var(--color-primary-hover);
+  }
+  
+  /* ADDED: Clear, consistent keyboard focus indicator for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  
+  /* ADDED: Highlight colour when selecting text */
+  ::selection {
+    background-color: var(--color-primary);
+    color: #ffffff;
+  }
+  
+  /* Make images easier to work with */
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    display: block;
+  }
+  
+  /* ADDED: Keep image proportions when width is limited */
+  img,
+  video {
+    height: auto;
+  }
+  
+  svg {
+    fill: currentColor;
+  }
+  
+  svg:not(:root) {
+    overflow: hidden;
+  }
+  
+  /* ADDED: Code blocks use a monospace font and scroll instead of breaking the layout */
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+  
+  pre {
+    overflow-x: auto;
+    padding: 1rem;
+    background-color: var(--color-code-bg);
+    border-radius: var(--radius);
+  }
+  
+  /* ADDED: Simple divider line that matches the theme */
+  hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: var(--space) 0;
+  }
+  
+  /* Inherit fonts for inputs and buttons */
+  input,
+  button,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit; /* ADDED: form controls match surrounding text colour */
+    border-radius: var(--radius); /* ADDED: consistent rounded corners */
+  }
+  
+  /* Update default button cursor to indicate interactivity */
+  button {
+    cursor: pointer;
+  }
+  
+  /* ADDED: Disabled buttons look and act disabled */
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  /* Make sure textareas without a rows attribute are not tiny using lh unit if supported */
+  textarea:not([rows]) {
+    min-height: 8rem;
+    min-height: 6lh;
+  }
+  
+  /* ADDED: Simpler table borders */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  /* ADDED: Make sure the hidden attribute always hides elements */
+  [hidden] {
+    display: none !important;
+  }
+  
+  /* Anything that has been anchored to should have extra scroll margin */
+  :target {
+    scroll-margin-block: 3rem;
+  }
+  
+  /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+  @media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+      scroll-behavior: auto;
+    }
+  
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
