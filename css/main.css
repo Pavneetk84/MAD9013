@@ -12,12 +12,14 @@
 
   --radius: 0.5rem;
 
-  --font-xxxl: 5.61rem;
-  --font-xxl: 4.209rem;
-  --font-xl: 3.157rem;
-  --font-lg: 2.369rem;
-  --font-md: 1.777rem;
-  --font-sm: 1.333rem;
+  /* My font sizes use clamp(smallest, grows with the screen, biggest), so I don't need media queries.
+     Bigger means "read me first", not "this is an h1" */
+  --font-xxxl: clamp(3rem, 1.5rem + 5vw, 5.61rem);
+  --font-xxl: clamp(2.5rem, 1.4rem + 4vw, 4.209rem);
+  --font-xl: clamp(2rem, 1.3rem + 2.5vw, 3.157rem);
+  --font-lg: clamp(1.5rem, 1.1rem + 1.5vw, 2.369rem);
+  --font-md: clamp(1.25rem, 1rem + 1vw, 1.777rem);
+  --font-sm: clamp(1.05rem, 1rem + 0.3vw, 1.333rem);
   --font-xs: 1rem;
 
   --font-sans: 'Noto Sans', sans-serif;
@@ -62,11 +64,12 @@ main {
   background-color: var(--primary-txt);
   color: var(--primary-bg);
 }
+/* Reading order: 1 company name, 2 banner, 3 feature names, 4 everything else */
 header h1 {
-  font-size: var(--font-xl);
+  font-size: var(--font-xxl);
 }
 header h2 {
-  font-size: var(--font-lg);
+  font-size: var(--font-md);
 }
 .banner {
   margin-inline: auto;
@@ -150,4 +153,30 @@ header h2 {
 .feature_box--action:focus-visible {
   outline: 3px solid var(--cta-focus-ring);
   outline-offset: 3px;
+}
+
+/* Typography: "What We Do" is just an intro, so it is smaller than my feature headings */
+main > h2 {
+  font-size: var(--font-md);
+}
+/* My one-sentence paragraphs are easy to read at this size */
+main p {
+  font-size: var(--font-sm);
+  line-height: 1.6;
+}
+/* My buttons get bigger text so they are easy to spot and tap */
+.class--action,
+.feature_box--action {
+  font-size: var(--font-sm);
+  padding: 0.75rem 2rem;
+}
+/* Contrast: my feature sentences use the lightest colour so they pop on the dark blue */
+.feature_box > p {
+  color: var(--primary-bg);
+}
+/* My banner sentence is the second thing I want people to read, so I made it bigger and darker */
+.banner > .banner--content {
+  font-size: var(--font-md);
+  font-weight: 500;
+  color: var(--secondary-txt);
 }
