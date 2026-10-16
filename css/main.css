@@ -4,6 +4,14 @@
 }
 
 :root {
+  /* My colour scheme: I gave each of the six colours a name so I can reuse it everywhere */
+  --color-cream: #fff4cc; /* page background and light text */
+  --color-brown: hsl(33, 100%, 30%); /* main text colour */
+  --color-orange: #c96f00; /* masthead and borders */
+  --color-bronze: rgb(166, 97, 0); /* footer and dark accents */
+  --color-sand: rgb(255, 224, 138); /* left column and subtitle */
+  --color-gold: hsl(45, 100%, 72%); /* right column, badge and banner border */
+
   --font-xxxl: 5.61rem;
   --font-xxl: 4.209rem;
   --font-xl: 3.157rem;
