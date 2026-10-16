@@ -215,8 +215,9 @@
     max-inline-size: 40ch;
     border: 1px solid var(--color-border);
     padding-inline: 0.5rem; /* I left out top and bottom padding so the 4th line doesn't peek out */
-    font-size: 20px;
-    line-height: 1.5; /* 30px */
+    /* I used clamp so my text grows and shrinks with the screen, no media query needed */
+    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+    line-height: 1.5;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -420,12 +421,8 @@
 }
 
 @layer responsive {
-  /* On small screens (phones), I make my text smaller and let my boxes use the full width */
+  /* On small screens (phones), I let my boxes use the full width */
   @media screen and (width < 800px) {
-    html,
-    body {
-      font-size: 1rem;
-    }
     /* On phones I stack my page areas in one column, and my sidebar goes under main */
     body {
       grid-template-columns: 1fr;
@@ -439,7 +436,6 @@
     main > p,
     details {
       max-inline-size: 100%;
-      font-size: 1rem;
     }
   }
   /* On big screens, I make my main heading green so I can see the media query working */
