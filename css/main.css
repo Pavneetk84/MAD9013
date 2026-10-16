@@ -1,460 +1,122 @@
-/* I set up my layers in order. The later layers win, so responsive beats everything,
-   and reset loses to everything */
-@layer reset, base, layout, content, cards, detail, responsive;
+:root {
+  --primary-txt: hsl(220, 40%, 40%);
+  --primary-bg: hsl(220, 40%, 90%);
+  --secondary-txt: hsl(220, 20%, 30%);
+  --secondary-bg: hsl(220, 20%, 80%);
 
+  --radius: 0.5rem;
 
+  --font-xxxl: 5.61rem;
+  --font-xxl: 4.209rem;
+  --font-xl: 3.157rem;
+  --font-lg: 2.369rem;
+  --font-md: 1.777rem;
+  --font-sm: 1.333rem;
+  --font-xs: 1rem;
 
-/* My reset: I clear the browser's default styles so my page looks the same everywhere */
-@layer reset {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
+  --font-sans: 'Noto Sans', sans-serif;
+  --font-serif: 'Noto Serif', sans-serif;
+  --font-mono: 'Noto Sans Mono', sans-serif;
+}
+
+*,
+*::after,
+*::before,
+*::backdrop {
+  box-sizing: border-box;
+  font-family: var(--font-sans);
+}
+html {
+  font-weight: 300;
+  color: var(--primary-txt);
+  background-color: var(--primary-bg);
+}
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 300;
+}
+pre {
+  font-family: var(--font-mono);
+}
+button {
+  background-color: var(--secondary-txt);
+  color: var(--secondary-bg);
+  padding: 0.5rem 2rem;
+  margin: 0.5rem 1rem 2rem 0;
+  border: none;
+  border-radius: var(--radius);
+}
+header,
+main {
+  max-width: min(90vw, 1072px);
+  padding: 2rem;
+  margin-inline: auto;
+  background-color: var(--primary-txt);
+  color: var(--primary-bg);
+}
+header h1 {
+  font-size: var(--font-xl);
+}
+header h2 {
+  font-size: var(--font-lg);
+}
+.banner {
+  margin-inline: auto;
+  padding: 4rem 2rem;
+  background-image:
+    linear-gradient(135deg, hsl(from var(--primary-bg) h s l / 0.2) 0%, hsl(from var(--primary-bg) h s l / 0.72) 45%, hsl(from var(--primary-bg) h s l / 0.36) 100%),
+    url('https://picsum.photos/id/377/1400/700');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-shadow: 0 1px 2px hsla(33, 100%, 30%, 0.45);
+
+  & > h2 {
+    font-size: var(--font-xl);
+    color: var(--secondary-txt);
+    text-shadow: 2px 2px 1px hsl(from var(--primary-bg) h s l / 0.32);
   }
-  html {
-    -moz-text-size-adjust: none;
-    -webkit-text-size-adjust: none;
-    text-size-adjust: none;
-    line-height: 1.5;
+  & > .banner--content {
+    font-size: var(--font-sm);
+    line-height: 1.8;
   }
-  html:focus-within {
-    scroll-behavior: smooth;
-  }
-  h1, h2, h3, h4, h5, h6, p, figure, blockquote, ol, ul, dl, dd {
-    margin: 0 0 1.5rem;
-  }
-  :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, ol, ul, dl, dd):last-child {
-    margin-bottom: 0;
-  }
-  ul[role="list"],
-  ol[role="list"] {
-    list-style: none;
-  }
-  body {
-    min-height: 100vh;
-    min-height: 100dvh;
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  h1, h2, h3, h4, h5, h6, button, input, label {
-    line-height: 1.1;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    text-wrap: balance;
-  }
-  p,
-  li {
-    text-wrap: pretty;
-    overflow-wrap: break-word;
-  }
-  a:not([class]) {
-    text-decoration-skip-ink: auto;
-    color: #36bf7f;
-  }
-  a:not([class]):hover,
-  a:not([class]):focus-visible {
-    color: #d96666;
-  }
-  :focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
-  }
-  img, picture, video, canvas, svg {
-    max-width: 100%;
-    display: block;
-  }
-  img,
-  video {
-    height: auto;
-  }
-  svg {
-    fill: currentColor;
-  }
-  svg:not(:root) {
-    overflow: hidden;
-  }
-  input, button, textarea, select {
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-  }
-  button {
-    cursor: pointer;
-  }
-  textarea:not([rows]) {
-    min-height: 8rem;
-    min-height: 6lh;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-  [hidden] {
-    display: none !important;
-  }
-  :target {
-    scroll-margin-block: 3rem;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html:focus-within {
-      scroll-behavior: auto;
-    }
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+  & > button {
+    align-self: flex-end;
+    font-size: var(--font-sm);
+    color: var(--secondary-bg);
+    background-color: var(--secondary-txt);
   }
 }
 
-@layer base {
-  /* My colour scheme: I keep every colour in one place as a variable,
-     so I can change a colour once and it updates everywhere */
-  :root {
-    --color-bg: #fbf8ef; /* cream background */
-    --color-text: #2b2b2b; /* dark grey text */
-    --color-primary: #3d6b35; /* leaf green, for headings and my important link */
-    --color-accent: #f2c94c; /* goldenrod yellow, for my nav bar */
-    --color-secondary: #2e5d9f; /* chicory blue, for my details box */
-    --color-surface: #fff3c4; /* light gold, for boxes */
-    --color-border: #777; /* grey borders */
-    --color-dark: #2b2b2b; /* dark buttons */
-    --color-on-dark: #fff; /* text on dark buttons */
+.feature_box {
+  border-block-start: 1px solid var(--primary-bg);
+  padding-inline: 3rem;
+  padding-block-start: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 
-    /* I keep my card sizes, corners and shadow here too */
-    --min-card-width: 250px; /* the smallest a card can get before the grid adds a new row */
-    --radius-sm: 0.5rem;
-    --radius-lg: 1rem;
-    --shadow: rgba(0, 0, 0, 0.2);
+  & > h3 {
+    font-size: var(--font-lg);
+    color: var(--primary-bg);
   }
-
-  /* I set my main font, text colour and background colour for the whole page */
-  body {
-    font-family: "Karla", sans-serif;
-    color: var(--color-text);
-    background-color: var(--color-bg);
+  & > p {
+    color: var(--secondary-bg);
   }
-  /* I used the Fraunces font for my big headings */
-  h1,
-  h2 {
-    font-family: "Fraunces", serif;
-  }
-  /* I gave my main parts of the page some space inside */
-  header,
-  main,
-  footer {
-    padding: 1.5rem;
-  }
-  header {
-    text-align: center;
-  }
-  /* I gave my section headings some space above and a green colour */
-  main > h2 {
-    margin-block-start: 2rem;
-    color: var(--color-primary);
-  }
-  /* I made my photos fill their box and rounded their corners */
-  .photo img {
-    inline-size: 100%;
-    border-radius: 6px;
-  }
-  /* I put my footer text and link on one line, at opposite ends */
-  footer {
-    display: flex;
-    justify-content: space-between;
-    border-block-start: 1px solid var(--color-border);
-  }
-  /* I made my footer link use my green colour */
-  .footer-link {
-    color: var(--color-primary);
+  & > button {
+    color: var(--secondary-bg);
+    background-color: var(--secondary-txt);
   }
 }
-
-@layer layout {
-  /* I turned my whole page into a grid and named each area.
-     Each line in grid-template-areas is one row of my page */
-  body {
-    display: grid;
-    grid-template-columns: 1fr 15rem; /* my main column takes the space left, my sidebar is 15rem */
-    grid-template-areas:
-      "mast mast"
-      "nav nav"
-      "main side"
-      "foot foot";
-    column-gap: 1.5rem;
-    max-inline-size: 75rem;
-    margin-inline: auto;
-  }
-  /* I tell each part of my page which named area it goes into */
-  header {
-    grid-area: mast;
-  }
-  .mainnav {
-    grid-area: nav;
-  }
-  main {
-    grid-area: main;
-    min-inline-size: 0; /* I let my main column shrink so it never overflows */
-  }
-  .ads {
-    grid-area: side;
-    align-self: start; /* my sidebar box only takes the height it needs */
-  }
-  footer {
-    grid-area: foot;
-  }
-}
-
-@layer content {
-  /* I limited my paragraphs to 3 lines and added ... at the end */
-  main > p {
-    max-inline-size: 40ch;
-    border: 1px solid var(--color-border);
-    padding-inline: 0.5rem; /* I left out top and bottom padding so the 4th line doesn't peek out */
-    /* I used clamp so my text grows and shrinks with the screen, no media query needed */
-    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
-    line-height: 1.5;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3; /* I show 3 lines, then ... */
-  }
-
-  /* I kept my h3 headings to ONE line with ... at the end */
-  main > h3 {
-    inline-size: 150px;
-    block-size: 1lh;
-    border: 1px solid var(--color-border);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  /* I made my nav a flex container so the links sit in a row */
-  .mainnav {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
-    gap: 0.5rem;
-    padding-block: 0.5rem;
-    background-color: var(--color-accent);
-  }
-  /* I styled each link as a flex item */
-  .mainnav > a {
-    background-color: var(--color-dark);
-    color: var(--color-on-dark);
-    text-decoration: none;
-    align-content: center;
-    flex: 0 0 fit-content; /* flex: grow shrink basis */
-    padding-inline: 1rem;
-    padding-block: 0.5rem;
-    cursor: pointer;
-  }
-  /* I gave my important link order: -1 so it moves to the front of my nav */
-  .mainnav > a.important {
-    order: -1;
-    background-color: var(--color-primary);
-    color: var(--color-bg); /* I use my background colour for the text so it is readable in light and dark mode */
-  }
-}
-
-@layer content {
-  /* I made my photo box position: relative, so it becomes the "anchor" for the label inside it */
-  .photo {
-    position: relative;
-    max-inline-size: 400px;
-    margin-block-end: 1rem;
-  }
-  /* I placed my label with position: absolute, stuck to the bottom edge of the photo */
-  .photo .label {
-    position: absolute;
-    inset: auto 0 0 0; /* top right bottom left: bottom, left and right edges touch the card */
-    z-index: 10; /* I keep my label on top of the image */
-    margin: 0;
-    padding: 0.5rem 1rem;
-    background-color: hsl(0 0% 0% / 0.72); /* see-through black */
-    color: var(--color-on-dark);
-    border-radius: 0 0 6px 6px;
-    opacity: 0; /* I hide my label until someone hovers */
-    transition: opacity 0.3s;
-  }
-  /* I show my label when the mouse is over the photo */
-  .photo:hover .label {
-    opacity: 1;
-  }
-
-  /* I made a small ad box in my sidebar that I hide when the page is printed */
-  .ads {
-    margin-block-start: 1.5rem;
-    padding: 1rem 1.5rem;
-    border-radius: var(--radius-sm);
-    background-color: var(--color-surface);
-    text-align: center;
-  }
-}
-
-@layer cards {
-  /* My grid of cards. auto-fit fits as many columns as it can.
-     Each card is at least --min-card-width wide (or 100% on tiny screens) and at most 1fr */
-  .cards {
-    display: grid;
-    gap: 1rem; /* the space between my cards across and down */
-    grid-template-columns: repeat(auto-fit, minmax(min(var(--min-card-width), 100%), 1fr));
-    margin-block-end: 2rem;
-  }
-
-  /* My basic card. It has no padding so the image goes edge to edge */
-  .card {
-    gap: 1rem;
-    padding: 0;
-    overflow: clip; /* I cut off anything that pokes out of my rounded corners */
-    border-radius: var(--radius-sm);
-    box-shadow: 0 4px 8px 0 var(--shadow);
-    background-color: var(--color-surface);
-    transition: box-shadow 0.3s;
-  }
-  /* I make my shadow bigger when the mouse is over a card */
-  .card:hover {
-    box-shadow: 0 8px 12px 0 var(--shadow);
-  }
-
-  /* My flex version of the card: a column, with the button pushed to the bottom */
-  .card--flex {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  /* My grid version of the card: 200px for the image, the content, then the button row */
-  .card--grid {
-    display: grid;
-    grid-template-rows: 200px max-content 1fr;
-  }
-
-  /* My card images come in all different sizes, so I make them all fit the same box */
-  .card__image {
-    width: 100%; /* I fill the card width */
-    height: 100%; /* I fill the height that flex or grid gives me */
-    object-fit: cover; /* I keep the aspect ratio and trim the extra bits */
-    object-position: center top; /* I keep the top of the photo visible */
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); /* I slant the bottom edge of my image */
-  }
-  /* In my flex cards I set the image height myself, to match the 200px grid row */
-  .card--flex .card__image {
-    height: 200px;
-    flex-shrink: 0; /* I stop my image from getting squished */
-  }
-
-  /* I added padding around my text and my button, because the card itself has none */
-  .card__content,
-  .card__action {
-    padding-inline: 1rem;
-  }
-  .card__action {
-    padding-block-end: 1rem;
-  }
-  /* In my grid cards, I push the button row to the bottom of its 1fr row */
-  .card--grid .card__action {
-    align-self: end;
-  }
-  /* In my flex cards, I let the content grow so the text sits right under the image */
-  .card--flex .card__content {
-    flex-grow: 1;
-  }
-  .card__title {
-    margin-block-end: 0.5rem;
-    color: var(--color-primary);
-  }
-  .card__info {
-    margin: 0;
-  }
-
-  /* The snippet from class: I show 3 lines of text, then ... */
-  .multiline-ellipsis {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3; /* I change this number to show more or fewer lines */
-    overflow: hidden;
-  }
-
-  /* My card button */
-  .card__button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: var(--radius-sm);
-    background-color: var(--color-primary);
-    color: var(--color-bg);
-  }
-}
-
-@layer detail {
-  /* I gave my details box a blue border */
-  details {
-    max-inline-size: 40ch;
-    border: 1px solid var(--color-secondary);
-    padding: 0.5rem;
-  }
-  /* I made my summary blue and bold so it looks clickable */
-  summary {
-    color: var(--color-secondary);
-    font-weight: 700;
-    cursor: pointer;
-  }
-  /* I styled everything inside my details except the summary */
-  ::details-content {
-    background-color: var(--color-surface);
-    font-weight: 100;
-  }
-  /* I change the border colour to green when my details box is open */
-  details[open] {
-    border-color: var(--color-primary);
-  }
-  /* I add padding to the content only when it is open */
-  [open]::details-content {
-    padding: 0.5rem;
-  }
-}
-
-@layer responsive {
-  /* On small screens (phones), I let my boxes use the full width */
-  @media screen and (width < 800px) {
-    /* On phones I stack my page areas in one column, and my sidebar goes under main */
-    body {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "mast"
-        "nav"
-        "main"
-        "side"
-        "foot";
-    }
-    main > p,
-    details {
-      max-inline-size: 100%;
-    }
-  }
-  /* On big screens, I make my main heading green so I can see the media query working */
-  @media screen and (width > 1200px) {
-    h1 {
-      color: var(--color-primary);
-    }
-  }
-  /* If the computer is set to dark mode, I only change my colour variables.
-     Everything that uses them switches to the dark colours by itself */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-bg: #1f2a1c; /* dark green background */
-      --color-text: #f2f2f2; /* light text */
-      --color-primary: #8fbf6a; /* lighter green */
-      --color-accent: #c9a227; /* deeper gold */
-      --color-secondary: #9cc3ea; /* lighter blue */
-      --color-surface: #2f3a2a; /* dark boxes */
-      --color-border: #aaa; /* lighter borders */
-    }
-  }
+.feature_box:nth-child(odd) > * {
+  justify-content: flex-start;
+  align-self: flex-end;
+  text-align: end;
 }
