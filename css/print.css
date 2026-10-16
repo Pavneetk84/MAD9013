@@ -1,10 +1,11 @@
 /* I only load this file when someone prints my page (media="print" in my HTML) */
 
-/* I hide things that are useless on paper: images, ads, my nav and my footer */
+/* I hide things that are useless on paper: images, ads, my nav, my footer and my card buttons */
 img,
 .ads,
 .mainnav,
-.footer {
+.footer,
+.card__action {
   display: none;
 }
 
@@ -32,4 +33,9 @@ main > h3 {
   overflow: visible;
   -webkit-line-clamp: unset;
   border: none;
+}
+
+/* On paper I don't need my page grid, so everything just stacks */
+body {
+  display: block;
 }

@@ -1,6 +1,6 @@
-/* I set up my layers in order. The later layers win, so responsive beats detail,
-   detail beats content, content beats base, and base beats reset */
-@layer reset, base, content, detail, responsive;
+/* I set up my layers in order. The later layers win, so responsive beats everything,
+   and reset loses to everything */
+@layer reset, base, layout, content, cards, detail, responsive;
 
 
 
@@ -124,6 +124,12 @@
     --color-border: #777; /* grey borders */
     --color-dark: #2b2b2b; /* dark buttons */
     --color-on-dark: #fff; /* text on dark buttons */
+
+    /* I keep my card sizes, corners and shadow here too */
+    --min-card-width: 250px; /* the smallest a card can get before the grid adds a new row */
+    --radius-sm: 0.5rem;
+    --radius-lg: 1rem;
+    --shadow: rgba(0, 0, 0, 0.2);
   }
 
   /* I set my main font, text colour and background colour for the whole page */
@@ -137,12 +143,10 @@
   h2 {
     font-family: "Fraunces", serif;
   }
-  /* I kept my content from getting too wide and centred it on the page */
+  /* I gave my main parts of the page some space inside */
   header,
   main,
   footer {
-    max-inline-size: 60rem;
-    margin-inline: auto;
     padding: 1.5rem;
   }
   header {
@@ -153,8 +157,8 @@
     margin-block-start: 2rem;
     color: var(--color-primary);
   }
-  /* I made my images fill their card and rounded their corners */
-  .card img {
+  /* I made my photos fill their box and rounded their corners */
+  .photo img {
     inline-size: 100%;
     border-radius: 6px;
   }
@@ -167,6 +171,41 @@
   /* I made my footer link use my green colour */
   .footer-link {
     color: var(--color-primary);
+  }
+}
+
+@layer layout {
+  /* I turned my whole page into a grid and named each area.
+     Each line in grid-template-areas is one row of my page */
+  body {
+    display: grid;
+    grid-template-columns: 1fr 15rem; /* my main column takes the space left, my sidebar is 15rem */
+    grid-template-areas:
+      "mast mast"
+      "nav nav"
+      "main side"
+      "foot foot";
+    column-gap: 1.5rem;
+    max-inline-size: 75rem;
+    margin-inline: auto;
+  }
+  /* I tell each part of my page which named area it goes into */
+  header {
+    grid-area: mast;
+  }
+  .mainnav {
+    grid-area: nav;
+  }
+  main {
+    grid-area: main;
+    min-inline-size: 0; /* I let my main column shrink so it never overflows */
+  }
+  .ads {
+    grid-area: side;
+    align-self: start; /* my sidebar box only takes the height it needs */
+  }
+  footer {
+    grid-area: foot;
   }
 }
 
@@ -225,14 +264,14 @@
 }
 
 @layer content {
-  /* I made my card position: relative, so it becomes the "anchor" for the label inside it */
-  .card {
+  /* I made my photo box position: relative, so it becomes the "anchor" for the label inside it */
+  .photo {
     position: relative;
     max-inline-size: 400px;
     margin-block-end: 1rem;
   }
-  /* I placed my label with position: absolute, stuck to the bottom edge of the card */
-  .card .label {
+  /* I placed my label with position: absolute, stuck to the bottom edge of the photo */
+  .photo .label {
     position: absolute;
     inset: auto 0 0 0; /* top right bottom left: bottom, left and right edges touch the card */
     z-index: 10; /* I keep my label on top of the image */
@@ -244,18 +283,111 @@
     opacity: 0; /* I hide my label until someone hovers */
     transition: opacity 0.3s;
   }
-  /* I show my label when the mouse is over the card */
-  .card:hover .label {
+  /* I show my label when the mouse is over the photo */
+  .photo:hover .label {
     opacity: 1;
   }
 
-  /* I made a small ad box that I hide when the page is printed */
+  /* I made a small ad box in my sidebar that I hide when the page is printed */
   .ads {
-    max-inline-size: 60rem;
-    margin-inline: auto;
+    margin-block-start: 1.5rem;
     padding: 1rem 1.5rem;
+    border-radius: var(--radius-sm);
     background-color: var(--color-surface);
     text-align: center;
+  }
+}
+
+@layer cards {
+  /* My grid of cards. auto-fit fits as many columns as it can.
+     Each card is at least --min-card-width wide (or 100% on tiny screens) and at most 1fr */
+  .cards {
+    display: grid;
+    gap: 1rem; /* the space between my cards across and down */
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--min-card-width), 100%), 1fr));
+    margin-block-end: 2rem;
+  }
+
+  /* My basic card. It has no padding so the image goes edge to edge */
+  .card {
+    gap: 1rem;
+    padding: 0;
+    overflow: clip; /* I cut off anything that pokes out of my rounded corners */
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 8px 0 var(--shadow);
+    background-color: var(--color-surface);
+    transition: box-shadow 0.3s;
+  }
+  /* I make my shadow bigger when the mouse is over a card */
+  .card:hover {
+    box-shadow: 0 8px 12px 0 var(--shadow);
+  }
+
+  /* My flex version of the card: a column, with the button pushed to the bottom */
+  .card--flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  /* My grid version of the card: 200px for the image, the content, then the button row */
+  .card--grid {
+    display: grid;
+    grid-template-rows: 200px max-content 1fr;
+  }
+
+  /* My card images come in all different sizes, so I make them all fit the same box */
+  .card__image {
+    width: 100%; /* I fill the card width */
+    height: 100%; /* I fill the height that flex or grid gives me */
+    object-fit: cover; /* I keep the aspect ratio and trim the extra bits */
+    object-position: center top; /* I keep the top of the photo visible */
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); /* I slant the bottom edge of my image */
+  }
+  /* In my flex cards I set the image height myself, to match the 200px grid row */
+  .card--flex .card__image {
+    height: 200px;
+    flex-shrink: 0; /* I stop my image from getting squished */
+  }
+
+  /* I added padding around my text and my button, because the card itself has none */
+  .card__content,
+  .card__action {
+    padding-inline: 1rem;
+  }
+  .card__action {
+    padding-block-end: 1rem;
+  }
+  /* In my grid cards, I push the button row to the bottom of its 1fr row */
+  .card--grid .card__action {
+    align-self: end;
+  }
+  /* In my flex cards, I let the content grow so the text sits right under the image */
+  .card--flex .card__content {
+    flex-grow: 1;
+  }
+  .card__title {
+    margin-block-end: 0.5rem;
+    color: var(--color-primary);
+  }
+  .card__info {
+    margin: 0;
+  }
+
+  /* The snippet from class: I show 3 lines of text, then ... */
+  .multiline-ellipsis {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* I change this number to show more or fewer lines */
+    overflow: hidden;
+  }
+
+  /* My card button */
+  .card__button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary);
+    color: var(--color-bg);
   }
 }
 
@@ -293,6 +425,16 @@
     html,
     body {
       font-size: 1rem;
+    }
+    /* On phones I stack my page areas in one column, and my sidebar goes under main */
+    body {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "mast"
+        "nav"
+        "main"
+        "side"
+        "foot";
     }
     main > p,
     details {
